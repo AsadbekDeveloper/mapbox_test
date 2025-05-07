@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    evaluationDependsOn(":app")
+}
+
+def newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get().asFile
+rootProject.buildDir = newBuildDir
+
+subprojects {
+    buildDir = new File(rootProject.buildDir, name)
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
